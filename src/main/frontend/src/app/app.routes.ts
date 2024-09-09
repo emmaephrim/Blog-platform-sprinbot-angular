@@ -1,0 +1,44 @@
+import { Routes } from '@angular/router';
+import { IndexComponent } from './adminPages/index/index.component';
+import { HomeComponent } from './homePages/home/home.component';
+import { PostsComponent } from './homePages/posts/posts.component';
+import { AdminComponent } from './adminPages/admin/admin.component';
+import { PostFormComponent } from './adminPages/post-form/post-form.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { AuthGuard } from './guard/auth.guard';
+
+export const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+    title: 'Home',
+    children: [{ path: '', component: PostsComponent }],
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    title: 'Admin',
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', component: IndexComponent },
+      { path: 'create-post', component: PostFormComponent },
+    ],
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    title: 'Login',
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    title: 'Register',
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+    title: 'Forgot Password',
+  },
+];

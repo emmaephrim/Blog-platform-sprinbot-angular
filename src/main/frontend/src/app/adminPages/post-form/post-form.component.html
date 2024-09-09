@@ -1,0 +1,56 @@
+<form [formGroup]="postForm" (ngSubmit)="handleSubmit()" class="col-6">
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Title</label>
+    <input
+      type="email"
+      class="form-control"
+      placeholder="post title"
+      formControlName="title"
+    />
+    <div
+      class="alert alert-danger p-1 fs-6"
+      role="alert"
+      [hidden]="!postForm.get('title')?.pristine"
+    >
+      Title is required!
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label"
+      >Date to publish</label
+    >
+    <input
+      type="date"
+      formControlName="date"
+      class="form-control"
+      formControlName="createdAt"
+    />
+    <div
+      class="alert alert-danger p-1 fs-6"
+      role="alert"
+      [hidden]="!postForm.get('createdAt')?.pristine"
+    >
+      Date is required!
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">Content</label>
+    <textarea
+      formControlName="content"
+      class="form-control"
+      rows="3"
+    ></textarea>
+    <div
+      class="alert alert-danger p-1 fs-6"
+      role="alert"
+      [hidden]="!postForm.get('content')?.pristine"
+    >
+      Post content is required!
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="!postForm.valid">
+    Submit
+  </button>
+</form>
