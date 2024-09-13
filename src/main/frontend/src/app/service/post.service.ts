@@ -21,6 +21,7 @@ export class PostService {
     console.log('this post: ', post);
     return this.http.post<Post>(this.baseUrl, post);
   }
+
   // getPosts() {
   //   const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getToken()}`);
   //   return this.http.get(this.apiUrl, { headers });
