@@ -11,7 +11,7 @@ public class Comment {
     private String id;
     private String userId;
     private String content;
-    private String postId;
+    private String postId; // I may not need this
 
     private Date createdAt;
 

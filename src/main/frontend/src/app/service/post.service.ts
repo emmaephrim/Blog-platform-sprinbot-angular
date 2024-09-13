@@ -10,6 +10,7 @@ export class PostService {
   private baseUrl: string;
   constructor(private http: HttpClient) {
     this.baseUrl = 'http://localhost:8080/api/posts';
+    // this.baseUrl = 'https://blog-app-v1-tagname.onrender.com/api/posts';
   }
 
   public findAllPosts(): Observable<Post[]> {
@@ -17,6 +18,7 @@ export class PostService {
   }
 
   public savePost(post: Post): Observable<Post> {
+    console.log('this post: ', post);
     return this.http.post<Post>(this.baseUrl, post);
   }
   // getPosts() {

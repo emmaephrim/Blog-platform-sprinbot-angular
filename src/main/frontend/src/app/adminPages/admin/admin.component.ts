@@ -24,6 +24,7 @@ import { AuthService } from '../../service/auth.service';
 })
 export class AdminComponent {
   authService: AuthService = inject(AuthService);
+  copyRightYear = new Date().getFullYear();
 
   constructor(private router: Router) {}
 

@@ -57,7 +57,9 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
         try {
             User user = userService.authenticateUser(authRequest.getUsername(), authRequest.getPassword());
-            String token = jwtUtil.generateToken(user.getUsername(), user.getRole()); // Create a JWT token
+            User userFromDb = userService.findByUsername(user.getUsername());
+            String token = jwtUtil.generateToken(user.getUsername(), user.getRole(),
+                    userService.getUserIdString(userFromDb)); // Create a JWT token
             return ResponseEntity.ok(new AuthResponse(token));
             // return new ResponseEntity<>(new ResponseMessage(token), HttpStatus.OK);
 

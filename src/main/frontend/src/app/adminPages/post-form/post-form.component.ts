@@ -24,15 +24,20 @@ export class PostFormComponent {
   constructor(private route: ActivatedRoute, private router: Router) {
     this.postForm = new FormGroup({
       title: new FormControl(this.post.title, [Validators.required]),
+      imageUrl: new FormControl(this.post.imageUrl, [
+        Validators.required,
+        Validators.pattern('https?://.+'),
+      ]),
       content: new FormControl(this.post.content, [
         Validators.required,
         Validators.max(200),
       ]),
       userId: new FormControl(this.post.userId),
-      createdAt: new FormControl(this.post.createdAt, [
-        Validators.required,
-        // Validators.pattern('^[0-9]{2}-[0-9]{2}-[0-9]{4}$'),
-      ]),
+      createdAt: new FormControl(this.post.createdAt, [Validators.required]),
+      comments: new FormControl(this.post.comments),
+      likes: new FormControl(this.post.likes),
+      dislikes: new FormControl(this.post.dislikes),
+      shares: new FormControl(this.post.shares),
     });
   }
 

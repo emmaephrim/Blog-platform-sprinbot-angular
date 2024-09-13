@@ -38,16 +38,17 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(String username, String role) {
+    public String generateToken(String username, String role, String userId) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username, role);
+        return createToken(claims, username, role, userId);
     }
 
-    private String createToken(Map<String, Object> claims, String username, String role) {
+    private String createToken(Map<String, Object> claims, String username, String role, String userId) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
-                .claim("role", role) // Add role to token
+                .claim("role", role)
+                .claim("userId", userId) // Add role to token
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)

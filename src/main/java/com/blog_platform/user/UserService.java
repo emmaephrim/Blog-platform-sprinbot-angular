@@ -23,6 +23,14 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public User findUserById(String id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public String getUserIdString(User user) {
+        return userRepository.findByUsername(user.getUsername()).getId();
+    }
+
     public boolean checkPassword(User user, String rawPassword) {
         if (user != null) {
             return passwordEncoder.matches(rawPassword, user.getPassword());

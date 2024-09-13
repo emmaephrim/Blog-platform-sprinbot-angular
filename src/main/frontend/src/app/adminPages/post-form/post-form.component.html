@@ -1,8 +1,11 @@
+<div class="mb-4">
+  <h1 class="h3 mb-0 text-gray-800">Create Post</h1>
+</div>
 <form [formGroup]="postForm" (ngSubmit)="handleSubmit()" class="col-6">
   <div class="mb-3">
     <label for="exampleFormControlInput1" class="form-label">Title</label>
     <input
-      type="email"
+      type="text"
       class="form-control"
       placeholder="post title"
       formControlName="title"
@@ -13,6 +16,22 @@
       [hidden]="!postForm.get('title')?.pristine"
     >
       Title is required!
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Post Image</label>
+    <input
+      type="url"
+      class="form-control"
+      placeholder="post image url"
+      formControlName="imageUrl"
+    />
+    <div
+      class="alert alert-danger p-1 fs-6"
+      role="alert"
+      [hidden]="!postForm.get('imageUrl')?.pristine"
+    >
+      Image Url is required!
     </div>
   </div>
   <div class="mb-3">

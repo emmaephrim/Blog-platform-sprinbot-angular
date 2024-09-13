@@ -27,4 +27,21 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public Post findPostById(String id) {
+        return postRepository.findById(id).orElse(null);
+    }
+
+    public Post likePost(Post post) {
+        post.setLikes(post.getLikes() + 1);
+        postRepository.save(post);
+        return post;
+
+    }
+
+    public Post dislikePost(Post post) {
+        post.setDislikes(post.getDislikes() + 1);
+        postRepository.save(post);
+        return post;
+    }
+
 }

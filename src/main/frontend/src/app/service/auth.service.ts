@@ -55,10 +55,25 @@ export class AuthService {
   // }
 
   getRole(): string {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      return decodedToken.role; // Get the role from the token
+    if (this.isBrowser()) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+
+        return decodedToken.role; // Get the role from the token
+      }
+    }
+    return '';
+  }
+
+  getUserId(): string {
+    if (this.isBrowser()) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        console.log('id form token: ', decodedToken.userId);
+        return decodedToken.userId;
+      }
     }
     return '';
   }
@@ -67,7 +82,11 @@ export class AuthService {
     return this.getRole() === 'ROLE_ADMIN';
   }
 
-  private isBrowser(): boolean {
+  isNormalUser(): boolean {
+    return this.getRole() === 'ROLE_USER';
+  }
+
+  public isBrowser(): boolean {
     return (
       typeof window !== 'undefined' &&
       typeof window.localStorage !== 'undefined'
