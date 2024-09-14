@@ -22,6 +22,16 @@ export class PostService {
     return this.http.post<Post>(this.baseUrl, post);
   }
 
+  // Like a post
+  likePost(postId: string): Observable<Post> {
+    return this.http.put<Post>(`${this.baseUrl}/${postId}/like`, {});
+  }
+
+  // Dislike a post
+  dislikePost(postId: string): Observable<Post> {
+    return this.http.put<Post>(`${this.baseUrl}/${postId}/dislike`, {});
+  }
+
   // getPosts() {
   //   const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getToken()}`);
   //   return this.http.get(this.apiUrl, { headers });

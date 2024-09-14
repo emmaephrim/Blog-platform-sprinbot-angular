@@ -5,6 +5,9 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+import com.blog_platform.post.Post;
+
 @Document(collection = "users")
 public class User {
     @Id
@@ -14,17 +17,22 @@ public class User {
     private String email;
     private String role;
     private Date createdAt = new Date();
+    private List<Post> likedPosts;
+    private List<Post> dislikedPosts;
 
     public User() {
     }
 
-    public User(String id, String username, String password, String email, String role, Date createdAt) {
+    public User(String id, String username, String password, String email, String role, Date createdAt,
+            List<Post> likedPosts, List<Post> dislikedPosts) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
         this.createdAt = createdAt;
+        this.likedPosts = likedPosts;
+        this.dislikedPosts = dislikedPosts;
     }
 
     public String getId() {
@@ -75,10 +83,29 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    public List<Post> getLikedPosts() {
+        return likedPosts;
+    }
+
+    public void setLikedPosts(List<Post> likedPosts) {
+        this.likedPosts = likedPosts;
+    }
+
+    public List<Post> getDislikedPosts() {
+        return dislikedPosts;
+    }
+
+    public void setDislikedPosts(List<Post> dislikedPosts) {
+        this.dislikedPosts = dislikedPosts;
+    }
+
     @Override
     public String toString() {
         return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", role="
-                + role + ", createdAt=" + createdAt + "]";
+                + role + ", createdAt=" + createdAt + ", likedPosts=" + likedPosts + ", dislikedPosts=" + dislikedPosts
+                + "]";
     }
+
+    
 
 }
