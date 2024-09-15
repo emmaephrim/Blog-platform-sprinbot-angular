@@ -42,48 +42,24 @@ export class PostsComponent {
   shareCount = 5;
 
   likePost(postId: string | null) {
-    for (let i = 0; i < this.posts.length; i++) {
-      if (this.posts[i].id === postId) {
-        // Check if the user has already liked the post
-        if (!this.posts[i].hasLiked) {
-          this.posts[i].likes++; // Increase likes
-
-          // If the user previously disliked, remove the dislike
-          if (this.posts[i].hasDisliked) {
-            this.posts[i].dislikes--;
-            this.posts[i].hasDisliked = false; // Reset dislike state
-          }
-
-          this.posts[i].hasLiked = true; // Set like state
-        } else {
-          // If already liked, remove the like (unlike)
-          this.posts[i].likes--;
-          this.posts[i].hasLiked = false;
-        }
+    this.postService.likePost(postId as string).subscribe((updatedPost) => {
+      const post = this.posts.find((p) => (p.id = updatedPost.id));
+      if (post) {
+        post.likes = updatedPost.likes;
+        post.dislikes = updatedPost.dislikes;
+        post.hasLiked = !post.hasLiked;
       }
-    }
+    });
   }
 
   dislikePost(postId: string | null) {
-    for (let i = 0; i < this.posts.length; i++) {
-      if (this.posts[i].id === postId) {
-        // Check if the user has already disliked the post
-        if (!this.posts[i].hasDisliked) {
-          this.posts[i].dislikes++; // Increase dislikes
-
-          // If the user previously liked, remove the like
-          if (this.posts[i].hasLiked) {
-            this.posts[i].likes--;
-            this.posts[i].hasLiked = false; // Reset like state
-          }
-
-          this.posts[i].hasDisliked = true; // Set dislike state
-        } else {
-          // If already disliked, remove the dislike (undislike)
-          this.posts[i].dislikes--;
-          this.posts[i].hasDisliked = false;
-        }
+    this.postService.dislikePost(postId as string).subscribe((updatedPost) => {
+      const post = this.posts.find((p) => p.id == updatedPost.id);
+      if (post) {
+        post.likes = updatedPost.likes;
+        post.dislikes = updatedPost.dislikes;
+        post.hasDisliked = !post.hasDisliked;
       }
-    }
+    });
   }
 }

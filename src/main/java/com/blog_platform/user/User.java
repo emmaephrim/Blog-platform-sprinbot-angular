@@ -1,12 +1,11 @@
 package com.blog_platform.user;
 
 import java.util.Date;
+import java.util.List;
 
+import org.apache.tomcat.util.digester.ArrayStack;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.List;
-import com.blog_platform.post.Post;
 
 @Document(collection = "users")
 public class User {
@@ -17,22 +16,22 @@ public class User {
     private String email;
     private String role;
     private Date createdAt = new Date();
-    private List<Post> likedPosts;
-    private List<Post> dislikedPosts;
+    private List<String> likedPostsIdList = new ArrayStack<>();
+    private List<String> dislikedPostsIdList = new ArrayStack<>();
 
     public User() {
     }
 
     public User(String id, String username, String password, String email, String role, Date createdAt,
-            List<Post> likedPosts, List<Post> dislikedPosts) {
+            List<String> likedPostsIdList, List<String> dislikedPostsIdList) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
         this.createdAt = createdAt;
-        this.likedPosts = likedPosts;
-        this.dislikedPosts = dislikedPosts;
+        this.likedPostsIdList = likedPostsIdList;
+        this.dislikedPostsIdList = dislikedPostsIdList;
     }
 
     public String getId() {
@@ -83,29 +82,27 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public List<Post> getLikedPosts() {
-        return likedPosts;
+    public List<String> getLikedPostsIdList() {
+        return likedPostsIdList;
     }
 
-    public void setLikedPosts(List<Post> likedPosts) {
-        this.likedPosts = likedPosts;
+    public void setLikedPostsIdList(List<String> likedPostsIdList) {
+        this.likedPostsIdList = likedPostsIdList;
     }
 
-    public List<Post> getDislikedPosts() {
-        return dislikedPosts;
+    public List<String> getDislikedPostsIdList() {
+        return dislikedPostsIdList;
     }
 
-    public void setDislikedPosts(List<Post> dislikedPosts) {
-        this.dislikedPosts = dislikedPosts;
+    public void setDislikedPostsIdList(List<String> dislikedPostsIdList) {
+        this.dislikedPostsIdList = dislikedPostsIdList;
     }
 
     @Override
     public String toString() {
         return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", role="
-                + role + ", createdAt=" + createdAt + ", likedPosts=" + likedPosts + ", dislikedPosts=" + dislikedPosts
-                + "]";
+                + role + ", createdAt=" + createdAt + ", likedPostsIdList=" + likedPostsIdList
+                + ", dislikedPostsIdList=" + dislikedPostsIdList + "]";
     }
-
-    
 
 }

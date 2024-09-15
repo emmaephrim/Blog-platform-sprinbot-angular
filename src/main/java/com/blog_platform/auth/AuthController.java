@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +19,13 @@ import com.blog_platform.user.UserService;
 @RequestMapping("/api")
 public class AuthController {
     private final UserService userService;
-    private final AuthenticationManager authenticationManager;
+    // private final AuthenticationManager authenticationManager;
     @Autowired
     private JwtUtil jwtUtil;
 
     AuthController(UserService userService, AuthenticationManager authenticationManager) {
         this.userService = userService;
-        this.authenticationManager = authenticationManager;
+        // this.authenticationManager = authenticationManager;
     }
 
     @PostMapping("/auth/signup")

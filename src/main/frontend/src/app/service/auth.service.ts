@@ -45,8 +45,8 @@ export class AuthService {
   logout() {
     if (this.isBrowser()) {
       localStorage.removeItem('token');
-      this.router.navigate(['/login']);
     }
+    this.router.navigate(['/login']);
   }
 
   // isAuthenticated() {
@@ -59,7 +59,6 @@ export class AuthService {
       const token = localStorage.getItem('token');
       if (token) {
         const decodedToken = this.jwtHelper.decodeToken(token);
-
         return decodedToken.role; // Get the role from the token
       }
     }
@@ -71,7 +70,6 @@ export class AuthService {
       const token = localStorage.getItem('token');
       if (token) {
         const decodedToken = this.jwtHelper.decodeToken(token);
-        console.log('id form token: ', decodedToken.userId);
         return decodedToken.userId;
       }
     }

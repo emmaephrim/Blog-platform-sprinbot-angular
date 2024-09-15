@@ -18,4 +18,9 @@ export class HomeComponent {
   isBrowser = () => this.authService.isBrowser();
   isNormalUser = () => this.authService.isNormalUser();
   isAdmin = () => this.authService.isAdmin();
+  logout = () => this.authService.logout();
+  isAuthenticated = () => this.authService.isAuthenticated();
+  OnInit(): void {
+    this.isAuthenticated();
+  }
 }

@@ -20,7 +20,7 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     title: 'Admin',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       { path: '', component: IndexComponent },
       { path: 'create-post', component: PostFormComponent },

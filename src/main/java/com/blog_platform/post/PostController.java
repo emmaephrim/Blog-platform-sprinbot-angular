@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog_platform.auth.JwtUtil;
 import com.blog_platform.user.User;
 import com.blog_platform.user.UserRepository;
 
@@ -26,10 +27,12 @@ import jakarta.validation.Valid;
 public class PostController {
     private final PostService postService;
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
-    public PostController(PostService postService, UserRepository userRepository) {
+    public PostController(PostService postService, UserRepository userRepository, JwtUtil jwtUtil) {
         this.postService = postService;
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -45,32 +48,39 @@ public class PostController {
     }
 
     @PutMapping("/posts/{id}/like")
-    public ResponseEntity<Post> likePost(@PathVariable String id, @RequestHeader("userId") String userId) {
+    public ResponseEntity<Post> likePost(@PathVariable String id, @RequestHeader("Authorization") String token) {
+        String jwtToken = token.substring(7);
+        if (!jwtToken.isEmpty() && !jwtUtil.tokenIsValid(jwtToken)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         Post post = postService.findPostById(id);
+        String userId = jwtUtil.extractUserId(token.substring(7));
         User user = userRepository.findById(userId).orElse(null);
 
-        if (user != null && user.getLikedPosts().contains(post)) {
-            postService.dislikePost(post);
-            return ResponseEntity.ok(post);
-        } else {
-            postService.likePost(post);
-            return ResponseEntity.ok(post);
+        if (user != null) {
+            postService.likePost(post, user);
         }
+        return ResponseEntity.ok(post);
 
     }
 
     @PutMapping("/posts/{id}/dislike")
-    public ResponseEntity<Post> dislikePost(@PathVariable String id, @RequestHeader("userId") String userId) {
+    public ResponseEntity<Post> dislikePost(@PathVariable String id,
+            @RequestHeader("Authorization") String token) {
+        String jwtToken = token.substring(7);
+        if (!jwtToken.isEmpty() && !jwtUtil.tokenIsValid(jwtToken)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         Post post = postService.findPostById(id);
+        String userId = jwtUtil.extractUserId(token.substring(7));
         User user = userRepository.findById(userId).orElse(null);
 
-        if (user != null && user.getDislikedPosts().contains(post)) {
-            postService.likePost(post);
-            return ResponseEntity.ok(post);
-        } else {
-            postService.dislikePost(post);
-            return ResponseEntity.ok(post);
+        if (user != null) {
+            postService.dislikePost(post, user);
         }
+        return ResponseEntity.ok(post);
 
     }
 
