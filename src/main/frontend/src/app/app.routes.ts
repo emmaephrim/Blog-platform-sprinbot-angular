@@ -8,13 +8,17 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { AuthGuard } from './guard/auth.guard';
+import { PostDetailsComponent } from './homePages/post-details/post-details.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
     title: 'Home',
-    children: [{ path: '', component: PostsComponent }],
+    children: [
+      { path: '', component: PostsComponent },
+      { path: 'post/:id/comments', component: PostDetailsComponent },
+    ],
   },
   {
     path: 'admin',

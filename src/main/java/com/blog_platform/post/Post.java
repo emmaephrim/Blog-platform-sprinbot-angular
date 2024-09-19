@@ -7,8 +7,6 @@ import org.springframework.data.annotation.Id;
 // import javax.validation.constraints.NotBlank;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.blog_platform.comment.Comment;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -25,7 +23,7 @@ public class Post {
     private String userId;
     private String imageUrl;
     private Date createdAt;
-    private List<Comment> comments;
+    private List<String> commentsIdList;
     private Integer likes;
     private Integer dislikes;
     private Integer shares;
@@ -37,15 +35,15 @@ public class Post {
 
     public Post(String id, String title, String content,
             @NotNull @Size(min = 3, message = "User ID is mandatory") @NotBlank(message = "User ID is mandatory") String userId,
-            String imageUrl, Date createdAt, List<Comment> comments, Integer likes, Integer dislikes, Integer shares,
-            boolean hasLiked, boolean hasDisliked) {
+            String imageUrl, Date createdAt, List<String> commentsIdList, Integer likes, Integer dislikes,
+            Integer shares, boolean hasLiked, boolean hasDisliked) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.userId = userId;
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
-        this.comments = comments;
+        this.commentsIdList = commentsIdList;
         this.likes = likes;
         this.dislikes = dislikes;
         this.shares = shares;
@@ -101,12 +99,12 @@ public class Post {
         this.createdAt = createdAt;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public List<String> getCommentsIdList() {
+        return commentsIdList;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setCommentsIdList(List<String> commentsIdList) {
+        this.commentsIdList = commentsIdList;
     }
 
     public Integer getLikes() {
@@ -147,13 +145,6 @@ public class Post {
 
     public void setHasDisliked(boolean hasDisliked) {
         this.hasDisliked = hasDisliked;
-    }
-
-    @Override
-    public String toString() {
-        return "Post [id=" + id + ", title=" + title + ", content=" + content + ", userId=" + userId + ", imageUrl="
-                + imageUrl + ", createdAt=" + createdAt + ", comments=" + comments + ", likes=" + likes + ", dislikes="
-                + dislikes + ", shares=" + shares + ", hasLiked=" + hasLiked + ", hasDisliked=" + hasDisliked + "]";
     }
 
     // public List<Comment> getComments() {

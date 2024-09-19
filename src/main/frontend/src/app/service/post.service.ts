@@ -19,6 +19,10 @@ export class PostService {
     return this.http.get<Post[]>(this.baseUrl);
   }
 
+  public findPostById(postId: string): Observable<Post> {
+    return this.http.get<Post>(`${this.baseUrl}/${postId}`);
+  }
+
   public savePost(post: Post): Observable<Post> {
     console.log('this post: ', post);
     return this.http.post<Post>(this.baseUrl, post);

@@ -31,21 +31,21 @@
       <span href="" class="text-primary">....</span>
 
       <!-- Likes -->
-      <button class="btn btn-light mr-4" (click)="likePost(post.id)">
-        <i class="bi bi-hand-thumbs-up"></i> Like
-        <span>{{ post.likes }}</span>
+      <button class="btn btn-light" (click)="likePost(post.id)">
+        <i class="bi bi-hand-thumbs-up text-success mr-2"></i>
+        <span class="text-success">{{ post.likes }}</span>
       </button>
 
       <!-- <button (click)="likePost(post.id)" [disabled]="post.userLiked || post.userDisliked">Like ({{ post.likes }})</button>
   <button (click)="dislikePost(post.id)" [disabled]="post.userLiked || post.userDisliked">Dislike ({{ post.dislikes }})</button> -->
       <!-- Dislikes -->
       <button class="btn btn-light" (click)="dislikePost(post.id)">
-        <i class="bi bi-hand-thumbs-down"></i> Dislike
-        <span>{{ post.dislikes }}</span>
+        <i class="bi bi-hand-thumbs-down text-danger mr-2"></i>
+        <span class="text-danger">{{ post.dislikes }}</span>
       </button>
 
       <!-- Comments -->
-      <a class="btn btn-link" [routerLink]="['/comments', post.id]">
+      <a class="btn btn-link" [routerLink]="['/post', post.id, 'comments']">
         <i class="bi bi-chat-left-text mr-2"></i>
         <span>{{ shareCount }}</span>
       </a>

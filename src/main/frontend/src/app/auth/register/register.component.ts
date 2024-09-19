@@ -20,14 +20,24 @@ import { confirmPasswordValidator } from './confirm-password-validator';
   templateUrl: './register.component.html',
   styleUrls: [
     './register.component.css',
-    '../../../../public/admin/vendor/fontawesome-free/css/all.min.css',
-    '../../../../public/admin/css/sb-admin-2.min.css',
+    // '../../../../public/admin/vendor/fontawesome-free/css/all.min.css',
+    // '../../../../public/admin/css/sb-admin-2.min.css',
   ],
 })
 export class RegisterComponent {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.classList.add('bg-dark', 'bg-gradient');
+    }
+  }
+
   user: User = new User();
   userForm: FormGroup = new FormGroup(
     {
+      fullName: new FormControl(this.user.fullName, [Validators.required]),
       username: new FormControl(this.user.username, [Validators.required]),
       password: new FormControl(this.user.password, [
         Validators.required,
@@ -40,11 +50,6 @@ export class RegisterComponent {
   );
 
   authService: AuthService = inject(AuthService);
-
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private router: Router
-  ) {}
 
   ngOnInit(): void {
     // Check if the code is running in the browser

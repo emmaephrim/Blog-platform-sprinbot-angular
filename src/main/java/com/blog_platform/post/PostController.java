@@ -47,6 +47,12 @@ public class PostController {
         return postService.getAllPost();
     }
 
+    @GetMapping("/posts/{id}")
+    public ResponseEntity<Post> findPostById(@PathVariable String id) {
+        Post post = postService.findPostById(id);
+        return ResponseEntity.ok(post);
+    }
+
     @PutMapping("/posts/{id}/like")
     public ResponseEntity<Post> likePost(@PathVariable String id, @RequestHeader("Authorization") String token) {
         String jwtToken = token.substring(7);

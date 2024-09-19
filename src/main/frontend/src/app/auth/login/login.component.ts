@@ -18,8 +18,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.component.html',
   styleUrls: [
     './login.component.css',
-    '../../../../public/admin/vendor/fontawesome-free/css/all.min.css',
-    '../../../../public/admin/css/sb-admin-2.min.css',
+    // '../../../../public/admin/vendor/fontawesome-free/css/all.min.css',
+    // '../../../../public/admin/css/sb-admin-2.min.css',
   ],
 })
 export class LoginComponent {

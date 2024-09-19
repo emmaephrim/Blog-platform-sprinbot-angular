@@ -1,5 +1,6 @@
 package com.blog_platform.user;
 
+import java.util.List;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,10 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 
     public User findUserById(String id) {

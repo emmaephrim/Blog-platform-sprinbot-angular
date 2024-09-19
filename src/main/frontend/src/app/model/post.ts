@@ -1,6 +1,5 @@
 import { inject } from '@angular/core';
 import { AuthService } from '../service/auth.service';
-import { CommentModel } from './comment.model';
 
 export class Post {
   authService: AuthService = inject(AuthService);
@@ -10,7 +9,7 @@ export class Post {
   createdAt: string;
   userId: string;
   imageUrl: string;
-  comments: CommentModel[];
+  comments: string[];
   likes: number;
   dislikes: number;
   shares: number;

@@ -1,7 +1,7 @@
 export class CommentModel {
   id: string | null;
   content: string;
-  createdAt: string;
+  createdAt: String;
   userId: string;
   postId: string;
 

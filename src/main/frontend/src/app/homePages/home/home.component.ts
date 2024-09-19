@@ -9,18 +9,23 @@ import { AuthService } from '../../service/auth.service';
   standalone: true,
   imports: [PostsComponent, RouterOutlet, CommonModule, RouterModule],
   templateUrl: './home.component.html',
+  // styleUrls: ['./blog-home.css'],
   styleUrls: ['./home.component.css', './blog-home.css'],
 })
 export class HomeComponent {
+  constructor() {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    this.isAdmin = () => this.authService.isAdmin();
+  }
   currentYear = new Date().getFullYear();
 
   authService: AuthService = inject(AuthService);
   isBrowser = () => this.authService.isBrowser();
   isNormalUser = () => this.authService.isNormalUser();
-  isAdmin = () => this.authService.isAdmin();
+  isAdmin: () => boolean;
   logout = () => this.authService.logout();
-  isAuthenticated = () => this.authService.isAuthenticated();
+  isAuthenticated: boolean;
   OnInit(): void {
-    this.isAuthenticated();
+    this.isAuthenticated = this.authService.isAuthenticated();
   }
 }

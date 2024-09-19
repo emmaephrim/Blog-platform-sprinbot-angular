@@ -21,6 +21,7 @@ public class DefaultUserCreator {
         return args -> {
             if (userRepository.findByUsername("admin") == null) {
                 User adminUser = new User();
+                adminUser.setFullName("Hybrid Blog");
                 adminUser.setUsername("admin");
                 adminUser.setPassword(passwordEncoder.encode("password"));
                 adminUser.setEmail("admin@admin.com");
@@ -29,7 +30,7 @@ public class DefaultUserCreator {
 
                 userRepository.save(adminUser);
                 System.out.println(
-                        "Admin user created with username: admin ,password: password and email: admin@admn.com");
+                        "Admin user created with full name: Hybrid Blog username: admin ,password: password and email: admin@admn.com");
             } else {
                 System.out.println("Admin user already exists, skipping creation....");
             }

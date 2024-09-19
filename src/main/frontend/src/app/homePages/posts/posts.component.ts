@@ -42,24 +42,67 @@ export class PostsComponent {
   shareCount = 5;
 
   likePost(postId: string | null) {
-    this.postService.likePost(postId as string).subscribe((updatedPost) => {
-      const post = this.posts.find((p) => (p.id = updatedPost.id));
-      if (post) {
-        post.likes = updatedPost.likes;
-        post.dislikes = updatedPost.dislikes;
-        post.hasLiked = !post.hasLiked;
+    const post = this.posts.find((p) => p.id === postId);
+    if (post) {
+      post.hasLiked = !post.hasLiked;
+      if (post.hasLiked) {
+        post.likes += 1;
+      } else {
+        post.likes -= 1;
       }
-    });
+
+      this.postService.likePost(postId as string).subscribe(
+        (updatedPost) => {
+          const index = this.posts.findIndex((p) => p.id === updatedPost.id);
+          if (index !== -1) {
+            this.posts[index] = updatedPost;
+          }
+        },
+        (error) => {
+          alert('Error liking post!');
+          post.hasLiked = !post.hasLiked;
+          if (post.hasLiked) {
+            post.likes += 1;
+          } else {
+            post.likes -= 1;
+          }
+        }
+      );
+    }
   }
 
   dislikePost(postId: string | null) {
-    this.postService.dislikePost(postId as string).subscribe((updatedPost) => {
-      const post = this.posts.find((p) => p.id == updatedPost.id);
-      if (post) {
-        post.likes = updatedPost.likes;
-        post.dislikes = updatedPost.dislikes;
-        post.hasDisliked = !post.hasDisliked;
+    const post = this.posts.find((p) => p.id === postId);
+    if (post) {
+      post.hasDisliked = !post.hasDisliked;
+      if (post.hasDisliked) {
+        post.dislikes += 1;
+      } else {
+        post.dislikes -= 1;
       }
-    });
+
+      this.postService.dislikePost(postId as string).subscribe(
+        (updatedPost) => {
+          const index = this.posts.findIndex((p) => p.id === updatedPost.id);
+          if (index !== -1) {
+            this.posts[index] = updatedPost;
+          }
+        },
+        (error) => {
+          alert('Error disliking post!');
+          post.hasDisliked = !post.hasDisliked;
+          if (post.hasDisliked) {
+            post.dislikes += 1;
+          } else {
+            post.dislikes -= 1;
+          }
+        }
+      );
+    }
+  }
+
+  getPostAuthor(postId: string) {
+    const post = this.posts.find((p) => p.id == postId);
+    return post?.userId;
   }
 }

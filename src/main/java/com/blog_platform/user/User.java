@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
     @Id
     private String id;
+    private String fullName;
     private String username;
     private String password;
     private String email;
@@ -22,9 +23,10 @@ public class User {
     public User() {
     }
 
-    public User(String id, String username, String password, String email, String role, Date createdAt,
+    public User(String id, String fullName, String username, String password, String email, String role, Date createdAt,
             List<String> likedPostsIdList, List<String> dislikedPostsIdList) {
         this.id = id;
+        this.fullName = fullName;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -40,6 +42,14 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getUsername() {
@@ -100,9 +110,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", role="
-                + role + ", createdAt=" + createdAt + ", likedPostsIdList=" + likedPostsIdList
-                + ", dislikedPostsIdList=" + dislikedPostsIdList + "]";
+        return "User [id=" + id + ", fullName=" + fullName + ", username=" + username + ", password=" + password
+                + ", email=" + email + ", role=" + role + ", createdAt=" + createdAt + ", likedPostsIdList="
+                + likedPostsIdList + ", dislikedPostsIdList=" + dislikedPostsIdList + "]";
     }
 
 }

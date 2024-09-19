@@ -2,6 +2,7 @@ import { Post } from './post';
 
 export class User {
   id: string | undefined;
+  fullName: string;
   username: string;
   password: string;
   email: string;
@@ -12,6 +13,7 @@ export class User {
 
   constructor() {
     this.username = '';
+    this.fullName = '';
     this.password = '';
     this.email = '';
     this.likedPosts = [];
