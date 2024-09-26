@@ -1,26 +1,14 @@
+import { isPlatformBrowser, Location } from '@angular/common';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
-import { isPlatformBrowser, Location } from '@angular/common';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const platformId = inject(PLATFORM_ID);
   const location = inject(Location);
   const currentUrl = location.path();
-
-  // if (!authService.isAdmin() && isPlatformBrowser(platformId)) {
-  //   return router.createUrlTree(['/']);
-  // }
-
-  // if (authService.isAdmin() && isPlatformBrowser(platformId)) {
-  //   return true;
-  // }
-  // if (!authService.isAdmin() && isPlatformBrowser(platformId)) {
-  //   return router.createUrlTree(['/']);
-  // }
-  // return false;
 
   if (isPlatformBrowser(platformId)) {
     if (authService.isAdmin()) {
@@ -28,14 +16,8 @@ export const authGuard: CanActivateFn = (route, state) => {
     } else {
       return router.createUrlTree(['/']);
     }
+  } else {
+    // router.createUrlTree([currentUrl]);
+    return false;
   }
-
-  router.createUrlTree([currentUrl]);
-  return false;
-};
-
-const isBrowser = (): boolean => {
-  return (
-    typeof window !== 'undefined' && typeof window.localStorage !== 'undefined'
-  );
 };
