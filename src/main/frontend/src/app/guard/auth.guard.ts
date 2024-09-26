@@ -29,15 +29,13 @@ export const authGuard: CanActivateFn = (route, state) => {
       return router.createUrlTree(['/']);
     }
   }
-  // return false;
 
-  // Check if the user is an admin
-  // if (authService.isAdmin()) {
-  //   return true; // Allow navigation if the user is an admin
-  // } else {
-  //   return router.createUrlTree(['/']); // Redirect to '/' if not an admin
-  // }
-  // console.log('router ',);
   router.createUrlTree([currentUrl]);
   return false;
+};
+
+const isBrowser = (): boolean => {
+  return (
+    typeof window !== 'undefined' && typeof window.localStorage !== 'undefined'
+  );
 };
