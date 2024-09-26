@@ -1,11 +1,10 @@
 import { CommonModule, NgFor } from '@angular/common';
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Post } from '../../model/post';
 import { PostService } from '../../service/post.service';
 import { UserService } from '../../service/user.service';
 import { User } from '../../model/user';
-import { map, Observable, of, switchMap } from 'rxjs';
 import {
   FormControl,
   FormGroup,
@@ -49,46 +48,17 @@ export class PostDetailsComponent {
     private userService: UserService,
     private commentService: CommentService,
     private route: ActivatedRoute
-  ) {
+  ) {}
+
+  ngOnInit() {
     const postId = this.route.snapshot.params['id'];
 
     this.postService.findPostById(postId).subscribe((post) => {
       this.post = post;
       this.commentForm.patchValue({ postId: this.post.id });
-
-      // if (post.userId) {
-      //   this.userService.getUserById(post.userId).subscribe((user) => {
-      //     this.user = user;
-      //     this.commentForm.patchValue({ userId: this.user.id });
-      //   });
-      // }
     });
 
-    // Fetch post, and once it's available, fetch the user
-    // this.postService.findPostById(postId).pipe(
-    //   switchMap((post) => {
-    //     this.post = post;
-    //     // Update postId in the form once the post is fetched
-    //     this.commentForm.patchValue({ postId: this.post.id });
-    //     // Only fetch the user if the post has a userId
-    //     if (post.userId) {
-    //       return this.userService.getUserById(post.userId);
-    //     } else {
-    //       // Return an empty observable if there's no userId
-    //       return of(null);
-    //     }
-    //   })
-    // )
-    // .subscribe((user) => {
-    //   if (user) {
-    //     this.user = user;
-
-    //     // Update userId in the form once the user is fetched
-    //     this.commentForm.patchValue({ userId: this.user.id });
-    //   }
-    // });
-
-    this.commentService.findAllComments().subscribe((data) => {
+    this.commentService.findCommentsByPostId(postId).subscribe((data) => {
       this.comments = data;
     });
 
@@ -103,6 +73,10 @@ export class PostDetailsComponent {
 
   // Handle comment submission
   handleCommentSubmit() {
+    if (!this.authService.isLoggedIn()) {
+      alert('Please login to comment!');
+      return;
+    }
     this.commentForm.patchValue({
       createdAt: new Date().toISOString(),
     });
@@ -118,6 +92,11 @@ export class PostDetailsComponent {
         alert('Error saving comment!');
       }
     });
+  }
+
+  findPostAuthor(userId: string) {
+    const user = this.users.find((u) => u.id === userId);
+    return user ? user.fullName : 'Unknown';
   }
 
   findCommentAuthor(userId: string): string {

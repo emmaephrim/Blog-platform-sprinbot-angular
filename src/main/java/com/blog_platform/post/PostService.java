@@ -3,6 +3,9 @@ package com.blog_platform.post;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -36,6 +39,25 @@ public class PostService {
 
     public Post findPostById(String id) {
         return postRepository.findById(id).orElse(null);
+    }
+
+    public Page<Post> getAllPostPageable(Pageable pageable, String search) {
+        if (search != null && !search.isEmpty()) {
+            List<Post> posts = new ArrayList<>();
+            postRepository.findAll().forEach(post -> {
+                if (post.getTitle().toLowerCase().contains(search.toLowerCase())
+                        || post.getContent().toLowerCase().contains(search.toLowerCase())) {
+                    posts.add(post);
+                }
+            });
+            return new PageImpl<>(posts, pageable, posts.size());
+        }
+
+        return Page.empty(pageable);
+    }
+
+    public Page<Post> getAllPostPageable(Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
 
     @Transactional

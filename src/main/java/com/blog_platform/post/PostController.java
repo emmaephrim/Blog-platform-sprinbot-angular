@@ -2,6 +2,9 @@ package com.blog_platform.post;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,6 +49,20 @@ public class PostController {
     @GetMapping("/posts")
     public List<Post> findAllPosts() {
         return postService.getAllPost();
+    }
+
+    @GetMapping("/posts/pageable")
+    public ResponseEntity<Page<Post>> findAllPostsPageable(@RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(name = "search", required = false) String search) {
+        Pageable pageable = PageRequest.of(page, size);
+        if (search != null && !search.isEmpty() && !search.isBlank()) {
+            Page<Post> posts = postService.getAllPostPageable(pageable, search);
+            return ResponseEntity.ok(posts);
+        }
+
+        Page<Post> posts = postService.getAllPostPageable(pageable);
+        return ResponseEntity.ok(posts);
     }
 
     @GetMapping("/posts/{id}")

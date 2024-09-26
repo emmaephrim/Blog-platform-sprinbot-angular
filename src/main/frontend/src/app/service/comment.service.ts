@@ -19,6 +19,10 @@ export class CommentService {
     return this.http.get<CommentModel>(`${this.baseUrl}/${commentId}`);
   }
 
+  public findCommentsByPostId(postId: string): Observable<CommentModel[]> {
+    return this.http.get<CommentModel[]>(`${this.baseUrl}/post/${postId}`);
+  }
+
   public saveComment(comment: CommentModel): Observable<CommentModel> {
     return this.http.post<CommentModel>(this.baseUrl, comment);
   }

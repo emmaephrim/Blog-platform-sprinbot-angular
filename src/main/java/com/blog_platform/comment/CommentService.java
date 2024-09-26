@@ -1,5 +1,6 @@
 package com.blog_platform.comment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -18,6 +19,19 @@ public class CommentService {
 
     public Comment findCommentById(String id) {
         return commentRepository.findById(id).orElse(null);
+    }
+
+    public List<Comment> findCommentsByPostId(String postId) {
+        List<Comment> postComments = new ArrayList<>();
+        if (postId != null) {
+            List<Comment> allComments = commentRepository.findAll();
+            for (Comment comment : allComments) {
+                if (comment.getPostId().equals(postId)) {
+                    postComments.add(comment);
+                }
+            }
+        }
+        return postComments;
     }
 
     public List<Comment> findAllComments() {

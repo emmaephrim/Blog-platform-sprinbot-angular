@@ -7,27 +7,38 @@ import { PostFormComponent } from './adminPages/post-form/post-form.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
-import { AuthGuard } from './guard/auth.guard';
+import { authGuard } from './guard/auth.guard';
 import { PostDetailsComponent } from './homePages/post-details/post-details.component';
 
 export const routes: Routes = [
+  // {
+  //   path: '',
+  //   redirectTo: 'home',
+  //   pathMatch: 'full',
+  // },
+
   {
     path: '',
     component: HomeComponent,
     title: 'Home',
     children: [
       { path: '', component: PostsComponent },
+      { path: 'posts', component: PostsComponent },
       { path: 'post/:id/comments', component: PostDetailsComponent },
+      { path: 'posts/:id', component: PostDetailsComponent },
     ],
   },
   {
     path: 'admin',
     component: AdminComponent,
     title: 'Admin',
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     children: [
       { path: '', component: IndexComponent },
-      { path: 'create-post', component: PostFormComponent },
+      {
+        path: 'create-post',
+        component: PostFormComponent,
+      },
     ],
   },
   {

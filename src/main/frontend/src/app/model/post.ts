@@ -3,13 +3,13 @@ import { AuthService } from '../service/auth.service';
 
 export class Post {
   authService: AuthService = inject(AuthService);
-  id: string | null;
+  id: string;
   title: string;
   content: string;
   createdAt: string;
   userId: string;
   imageUrl: string;
-  comments: string[];
+  commentsIdList: string[];
   likes: number;
   dislikes: number;
   shares: number;
@@ -23,7 +23,7 @@ export class Post {
     this.createdAt = '';
     this.userId = this.authService.getUserId();
     this.imageUrl = '';
-    this.comments = [];
+    this.commentsIdList = [];
     this.likes = 0;
     this.dislikes = 0;
     this.shares = 0;

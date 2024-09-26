@@ -32,6 +32,11 @@ public class CommentController {
         return ResponseEntity.ok(commentService.findCommentById(id));
     }
 
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<List<Comment>> getCommentsByPostId(@PathVariable String postId) {
+        return ResponseEntity.ok(commentService.findCommentsByPostId(postId));
+    }
+
     @PostMapping("")
     public ResponseEntity<Comment> createComment(@Valid @RequestBody Comment comment) {
         commentService.saveComment(comment);

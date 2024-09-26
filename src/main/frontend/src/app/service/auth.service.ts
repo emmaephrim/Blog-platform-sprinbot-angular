@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -14,7 +14,11 @@ export class AuthService {
 
   jwtHelper: JwtHelperService = new JwtHelperService();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  private adminStatus: boolean = false;
+
+  constructor(private http: HttpClient, private router: Router) {
+    this.checkAdminStatus();
+  }
 
   public signup(user: User): Observable<User> {
     return this.http.post<User>(this.signupUrl, user);
@@ -35,6 +39,13 @@ export class AuthService {
       return localStorage.getItem('token');
     }
     return null;
+  }
+
+  isLoggedIn(): boolean {
+    if (this.isBrowser()) {
+      return localStorage.getItem('token') !== null;
+    }
+    return false;
   }
 
   isAuthenticated(): boolean {
@@ -76,8 +87,22 @@ export class AuthService {
     return '';
   }
 
+  checkAdminStatus() {
+    return of(this.getRole() === 'ROLE_ADMIN').subscribe((status) => {
+      this.adminStatus = status;
+    });
+  }
+
+  // isAdmin(): boolean {
+  //   return this.getRole() === 'ROLE_ADMIN';
+  // }
+
   isAdmin(): boolean {
-    return this.getRole() === 'ROLE_ADMIN';
+    return this.adminStatus;
+  }
+
+  isAdminAsync(): Observable<boolean> {
+    return of(this.getRole() === 'ROLE_ADMIN');
   }
 
   isNormalUser(): boolean {

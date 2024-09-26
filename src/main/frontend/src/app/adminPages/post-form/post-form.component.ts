@@ -34,7 +34,7 @@ export class PostFormComponent {
       ]),
       userId: new FormControl(this.post.userId),
       createdAt: new FormControl(this.post.createdAt, [Validators.required]),
-      comments: new FormControl(this.post.comments),
+      // comments: new FormControl(this.post.comments),
       likes: new FormControl(this.post.likes),
       dislikes: new FormControl(this.post.dislikes),
       shares: new FormControl(this.post.shares),

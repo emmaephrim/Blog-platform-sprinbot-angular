@@ -2,7 +2,9 @@ import { CommonModule, NgFor } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Post } from '../../model/post';
 import { PostService } from '../../service/post.service';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { CommentService } from '../../service/comment.service';
+import { CommentModel } from '../../model/comment.model';
 
 @Component({
   selector: 'app-posts',
@@ -12,13 +14,25 @@ import { RouterLink } from '@angular/router';
   styleUrl: './posts.component.css',
 })
 export class PostsComponent {
+  comments: CommentModel[] = [];
   posts: Post[] = [];
   postService: PostService = inject(PostService);
 
-  constructor() {
-    this.postService.findAllPosts().subscribe((data) => {
-      this.posts = data;
-    });
+  page: number = 0;
+  size: number = 3;
+  totalPages: number = 0;
+  searchQuery: string = '';
+
+  constructor(
+    private commentService: CommentService,
+    private route: ActivatedRoute
+  ) {
+    // this.postService.findAllPosts().subscribe((data) => {
+    //   this.posts = data;
+    // });
+    // this.commentService.findAllComments().subscribe((data) => {
+    //   this.comments = data;
+    // });
   }
 
   formatDate(date: string): string {
@@ -27,19 +41,51 @@ export class PostsComponent {
   }
 
   ngOnInit() {
-    this.postService.findAllPosts().subscribe((data) => {
-      this.posts = data;
+    this.route.queryParams.subscribe((params) => {
+      this.searchQuery = params['search'] || '';
+      this.loadPosts();
+    });
+
+    this.commentService.findAllComments().subscribe((data) => {
+      this.comments = data;
     });
   }
 
+  loadPosts() {
+    this.postService
+      .findPostsPageable(this.page, this.size, this.searchQuery)
+      .subscribe((data: any) => {
+        this.posts = data.content;
+        this.totalPages = data.totalPages;
+      });
+  }
+
+  nextPage() {
+    if (this.page < this.totalPages - 1) {
+      this.page++;
+      this.loadPosts();
+    }
+  }
+
+  prevPage() {
+    if (this.page > 0) {
+      this.page--;
+      this.loadPosts();
+    }
+  }
+
   sharePost(postId: string | null) {
-    // const postUrl = `http://yourblog.com/posts/${postId}`;
-    const postUrl = `/`;
+    const currentUrl = window.location.origin;
+    const postUrl = `${currentUrl}/posts/${postId}`;
     navigator.clipboard.writeText(postUrl);
     alert('Post URL copied to clipboard!');
   }
 
   shareCount = 5;
+
+  getPostCommentsCount(postId: string) {
+    return this.comments.filter((comment) => comment.postId === postId).length;
+  }
 
   likePost(postId: string | null) {
     const post = this.posts.find((p) => p.id === postId);
