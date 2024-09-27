@@ -23,6 +23,7 @@ public class Post {
     private String userId;
     private String imageUrl;
     private Date createdAt;
+    private String categoryId;
     private List<String> commentsIdList;
     private Integer likes;
     private Integer dislikes;
@@ -35,14 +36,15 @@ public class Post {
 
     public Post(String id, String title, String content,
             @NotNull @Size(min = 3, message = "User ID is mandatory") @NotBlank(message = "User ID is mandatory") String userId,
-            String imageUrl, Date createdAt, List<String> commentsIdList, Integer likes, Integer dislikes,
-            Integer shares, boolean hasLiked, boolean hasDisliked) {
+            String imageUrl, Date createdAt, String categoryId, List<String> commentsIdList, Integer likes,
+            Integer dislikes, Integer shares, boolean hasLiked, boolean hasDisliked) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.userId = userId;
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
+        this.categoryId = categoryId;
         this.commentsIdList = commentsIdList;
         this.likes = likes;
         this.dislikes = dislikes;
@@ -99,6 +101,14 @@ public class Post {
         this.createdAt = createdAt;
     }
 
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
     public List<String> getCommentsIdList() {
         return commentsIdList;
     }
@@ -145,6 +155,14 @@ public class Post {
 
     public void setHasDisliked(boolean hasDisliked) {
         this.hasDisliked = hasDisliked;
+    }
+
+    @Override
+    public String toString() {
+        return "Post [id=" + id + ", title=" + title + ", content=" + content + ", userId=" + userId + ", imageUrl="
+                + imageUrl + ", createdAt=" + createdAt + ", categoryId=" + categoryId + ", commentsIdList="
+                + commentsIdList + ", likes=" + likes + ", dislikes=" + dislikes + ", shares=" + shares + ", hasLiked="
+                + hasLiked + ", hasDisliked=" + hasDisliked + "]";
     }
 
     // public List<Comment> getComments() {

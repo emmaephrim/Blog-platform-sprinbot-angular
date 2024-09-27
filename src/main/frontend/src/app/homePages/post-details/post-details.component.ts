@@ -104,7 +104,7 @@ export class PostDetailsComponent {
     return user ? user.username : 'Unknown';
   }
 
-  formatDate(date: string): string {
+  formatDate(date: string | Date): string {
     const formattedDate = new Date(date).toUTCString().slice(0, 16);
     return formattedDate;
   }

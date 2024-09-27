@@ -9,19 +9,27 @@ import {
 import { Post } from '../../model/post';
 import { PostService } from '../../service/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CategoryModel } from '../../model/category';
+import { CategoryService } from '../../service/category.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-post-form',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './post-form.component.html',
   styleUrl: './post-form.component.css',
 })
 export class PostFormComponent {
+  categories: CategoryModel[] = [];
   postForm: FormGroup;
   post: Post = new Post();
   postService: PostService = inject(PostService);
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private categoryService: CategoryService
+  ) {
     this.postForm = new FormGroup({
       title: new FormControl(this.post.title, [Validators.required]),
       imageUrl: new FormControl(this.post.imageUrl, [
@@ -32,6 +40,7 @@ export class PostFormComponent {
         Validators.required,
         Validators.max(200),
       ]),
+      categoryId: new FormControl(this.post.categoryId, [Validators.required]),
       userId: new FormControl(this.post.userId),
       createdAt: new FormControl(this.post.createdAt, [Validators.required]),
       // comments: new FormControl(this.post.comments),
@@ -41,10 +50,16 @@ export class PostFormComponent {
     });
   }
 
+  ngOnInit() {
+    this.categoryService.getAllCategories().subscribe((result) => {
+      this.categories = result;
+    });
+  }
+
   public handleSubmit() {
     this.post = this.postForm.value as Post;
     this.postService.savePost(this.post).subscribe((result) => {
-      console.log(result);
+      alert('Post saved successfully');
       this.goToDashboard();
     });
   }

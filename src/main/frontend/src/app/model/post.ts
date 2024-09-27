@@ -6,7 +6,8 @@ export class Post {
   id: string;
   title: string;
   content: string;
-  createdAt: string;
+  createdAt: Date;
+  categoryId: string;
   userId: string;
   imageUrl: string;
   commentsIdList: string[];
@@ -20,7 +21,8 @@ export class Post {
     this.id = '';
     this.title = '';
     this.content = '';
-    this.createdAt = '';
+    this.createdAt = new Date();
+    this.categoryId = '';
     this.userId = this.authService.getUserId();
     this.imageUrl = '';
     this.commentsIdList = [];
