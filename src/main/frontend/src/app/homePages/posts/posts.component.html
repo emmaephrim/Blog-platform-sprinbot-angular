@@ -24,7 +24,9 @@
       <p class="card-text">
         {{ post.content }}
       </p>
-      <a href="#" class="btn btn-primary">Read More &rarr;</a>
+      <a [routerLink]="['/post', post.id, 'comments']" class="btn btn-primary"
+        >Read More &rarr;</a
+      >
     </div>
     <div class="card-footer text-muted">
       Posted on {{ formatDate(post.createdAt) }} by

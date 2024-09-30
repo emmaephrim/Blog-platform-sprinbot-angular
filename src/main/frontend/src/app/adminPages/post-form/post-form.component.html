@@ -83,11 +83,22 @@
 
   <div class="mb-3">
     <label for="exampleFormControlTextarea1" class="form-label">Content</label>
-    <textarea
+    <!-- app.component.html -->
+
+    <ckeditor
+      *ngIf="Editor && config"
+      [editor]="Editor"
+      [config]="config"
+      data="<p>Hello, world!</p>"
+    ></ckeditor>
+
+    <!-- <textarea id="Editor" formControlName="content"></textarea> -->
+
+    <!-- <textarea
       formControlName="content"
       class="form-control"
       rows="3"
-    ></textarea>
+    ></textarea> -->
     <div
       class="alert alert-danger p-1 fs-6"
       role="alert"

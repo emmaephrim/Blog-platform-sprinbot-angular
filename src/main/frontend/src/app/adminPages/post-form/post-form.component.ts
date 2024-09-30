@@ -1,4 +1,21 @@
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  inject,
+  ViewEncapsulation,
+  PLATFORM_ID,
+  Inject,
+  afterNextRender,
+} from '@angular/core';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import {
+  ClassicEditor,
+  Bold,
+  Essentials,
+  Italic,
+  Mention,
+  Paragraph,
+  Undo,
+} from 'ckeditor5';
 import {
   FormControl,
   FormGroup,
@@ -11,16 +28,20 @@ import { PostService } from '../../service/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryModel } from '../../model/category';
 import { CategoryService } from '../../service/category.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-post-form',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  encapsulation: ViewEncapsulation.None,
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, CKEditorModule],
   templateUrl: './post-form.component.html',
   styleUrl: './post-form.component.css',
 })
 export class PostFormComponent {
+  public Editor: any | null;
+  public config: any;
+
   categories: CategoryModel[] = [];
   postForm: FormGroup;
   post: Post = new Post();
@@ -28,8 +49,23 @@ export class PostFormComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
+    if (isPlatformBrowser(this.platformId)) {
+      // this.Editor = ClassicEditor;
+      // this.config = {
+      //   toolbar: ['undo', 'redo', '|', 'bold', 'italic'],
+      //   plugins: [Bold, Essentials, Italic, Mention, Paragraph, Undo],
+      // };
+      this.loadCkEditor();
+    }
+
+    // afterNextRender(() => {
+    //   this.loadCkEditor();
+    // });
+
     this.postForm = new FormGroup({
       title: new FormControl(this.post.title, [Validators.required]),
       imageUrl: new FormControl(this.post.imageUrl, [
@@ -54,6 +90,37 @@ export class PostFormComponent {
     this.categoryService.getAllCategories().subscribe((result) => {
       this.categories = result;
     });
+  }
+
+  async loadCkEditor() {
+    // const { Bold, Essentials, Italic, Mention, Paragraph, Undo } = await import(
+    //   'ckeditor5'
+    // );
+    // this.config = {
+    //   toolbar: ['undo', 'redo', '|', 'bold', 'italic'],
+    //   plugins: [Bold, Essentials, Italic, Mention, Paragraph, Undo],
+    // };
+    // this.Editor = (await import('ckeditor5')).ClassicEditor.create(
+    //   document.querySelector('#Editor') as any,
+    //   this.config
+    // );
+
+    const {
+      ClassicEditor,
+      Bold,
+      Essentials,
+      Italic,
+      Mention,
+      Paragraph,
+      Undo,
+    } = await import('ckeditor5');
+
+    this.config = {
+      toolbar: ['undo', 'redo', '|', 'bold', 'italic'],
+      plugins: [Bold, Essentials, Italic, Mention, Paragraph, Undo],
+    };
+
+    this.Editor = ClassicEditor;
   }
 
   public handleSubmit() {
