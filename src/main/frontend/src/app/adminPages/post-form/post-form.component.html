@@ -89,7 +89,8 @@
       *ngIf="Editor && config"
       [editor]="Editor"
       [config]="config"
-      data="<p>Hello, world!</p>"
+      formControlName="content"
+      tagName="textarea"
     ></ckeditor>
 
     <!-- <textarea id="Editor" formControlName="content"></textarea> -->

@@ -13,7 +13,9 @@
   <div class="card mb-4" *ngFor="let post of posts">
     <img
       class="card-img-top"
-      src="{{ post.imageUrl }}"
+      src="{{
+        post.imageUrl ? post.imageUrl : 'images/blog_post_default_image.jpg'
+      }}"
       width="750"
       height="300"
       style="object-fit: cover"
@@ -21,9 +23,8 @@
     />
     <div class="card-body">
       <h2 class="card-title">{{ post.title }}</h2>
-      <p class="card-text">
-        {{ post.content }}
-      </p>
+      <div class="card-text" [innerHTML]="post.content"></div>
+
       <a [routerLink]="['/post', post.id, 'comments']" class="btn btn-primary"
         >Read More &rarr;</a
       >

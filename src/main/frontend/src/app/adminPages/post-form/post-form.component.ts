@@ -8,15 +8,6 @@ import {
 } from '@angular/core';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import {
-  ClassicEditor,
-  Bold,
-  Essentials,
-  Italic,
-  Mention,
-  Paragraph,
-  Undo,
-} from 'ckeditor5';
-import {
   FormControl,
   FormGroup,
   FormsModule,
@@ -53,15 +44,6 @@ export class PostFormComponent {
 
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    if (isPlatformBrowser(this.platformId)) {
-      // this.Editor = ClassicEditor;
-      // this.config = {
-      //   toolbar: ['undo', 'redo', '|', 'bold', 'italic'],
-      //   plugins: [Bold, Essentials, Italic, Mention, Paragraph, Undo],
-      // };
-      this.loadCkEditor();
-    }
-
     // afterNextRender(() => {
     //   this.loadCkEditor();
     // });
@@ -87,6 +69,10 @@ export class PostFormComponent {
   }
 
   ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadCkEditor();
+    }
+
     this.categoryService.getAllCategories().subscribe((result) => {
       this.categories = result;
     });
@@ -116,7 +102,15 @@ export class PostFormComponent {
     } = await import('ckeditor5');
 
     this.config = {
-      toolbar: ['undo', 'redo', '|', 'bold', 'italic'],
+      toolbar: [
+        'paragraph',
+        'undo',
+        'redo',
+        '|',
+        'bold',
+        'italic',
+        'essentials',
+      ],
       plugins: [Bold, Essentials, Italic, Mention, Paragraph, Undo],
     };
 

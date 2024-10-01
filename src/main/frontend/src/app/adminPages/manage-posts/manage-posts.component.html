@@ -1,0 +1,97 @@
+<!-- <div>
+  <jqxGrid
+    *ngIf="source.length != 0"
+    [selectionmode]="'checkbox'"
+    [source]="source"
+    [theme]="'material'"
+    [autoheight]="true"
+    [pageable]="true"
+    [altrows]="true"
+    [filterable]="true"
+    [sortable]="true"
+    [columns]="columns"
+    #grid
+  >
+  </jqxGrid>
+</div> -->
+
+<p>
+  <button
+    type="button"
+    class="btn waves-effect waves-light blue"
+    (click)="rerender()"
+  >
+    Rerender
+  </button>
+</p>
+<!-- <div class="card my-2 mb-4">
+  <div class="card-body">
+    <table
+      datatable
+      [dtOptions]="dtOptions"
+      [dtTrigger]="dtTrigger"
+      class="row-border hover"
+    ></table>
+  </div>
+</div> -->
+
+<!-- <div class="container">
+  <div class="card m-5 p-3">
+    <div class="card-body">
+      <table
+        [dtOptions]="dtOptions"
+        datatable
+        class="table table-bordered table-striped table-hover row-border hover"
+      >
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let post of posts">
+            <td>{{ post.id }}</td>
+            <td>{{ post.title }}</td>
+            <td>{{ post.categoryId }}</td>
+            <td>{{ post.userId }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div> -->
+
+<div class="card m-2 p-1">
+  <div class="card-body" *ngIf="posts.length > 0">
+    <table datatable class="row-border hover" *ngIf="posts.length != 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First name</th>
+          <th>Last name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let post of posts">
+          <td>{{ post.id }}</td>
+          <td>{{ post.title }}</td>
+          <td>{{ post.categoryId }}</td>
+        </tr>
+
+        <!-- <tr>
+          <td>1</td>
+          <td>Foo</td>
+          <td>Bar</td>
+        </tr> -->
+      </tbody>
+      <!-- <tbody *ngIf="posts.length == 0">
+        <tr>
+          <td colspan="3" class="no-data-available">No data!</td>
+        </tr>
+      </tbody> -->
+    </table>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { authGuard } from './guard/auth.guard';
 import { PostDetailsComponent } from './homePages/post-details/post-details.component';
+import { ManagePostsComponent } from './adminPages/manage-posts/manage-posts.component';
 
 export const routes: Routes = [
   // {
@@ -39,6 +40,7 @@ export const routes: Routes = [
         path: 'create-post',
         component: PostFormComponent,
       },
+      { path: 'manage-posts', component: ManagePostsComponent },
     ],
   },
   {
