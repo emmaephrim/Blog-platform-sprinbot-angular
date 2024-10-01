@@ -37,11 +37,7 @@
           </div>
           <div class="line-divider"></div>
           <div class="post-text">
-            <p>
-              {{ post.content }}
-              <i class="em em-anguished"></i> <i class="em em-anguished"></i>
-              <i class="em em-anguished"></i>
-            </p>
+            <div [innerHTML]="post.content"></div>
           </div>
           <div class="line-divider"></div>
           <!-- <div class="post-comment">

@@ -27,10 +27,13 @@ public class PostService {
         postRepository.save(postDto);
     }
 
-    public void updatePost(Post postDto) {
+    public void updatePost(Post post) {
+        postRepository.save(post);
+
     }
 
-    public void deletePost(Long postId) {
+    public void deletePost(String id) {
+        postRepository.deleteById(id);
     }
 
     public List<Post> getAllPost() {

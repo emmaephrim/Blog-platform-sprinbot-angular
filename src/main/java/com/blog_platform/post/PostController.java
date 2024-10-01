@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,6 +72,12 @@ public class PostController {
         return ResponseEntity.ok(post);
     }
 
+    @PutMapping("/posts")
+    public ResponseEntity<Post> updatePost(@RequestBody Post post) {
+        postService.updatePost(post);
+        return ResponseEntity.ok(post);
+    }
+
     @PutMapping("/posts/{id}/like")
     public ResponseEntity<Post> likePost(@PathVariable String id, @RequestHeader("Authorization") String token) {
         String jwtToken = token.substring(7);
@@ -87,6 +94,22 @@ public class PostController {
         }
         return ResponseEntity.ok(post);
 
+    }
+
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable String id, @RequestHeader("Authorization") String token) {
+        String jwtToken = token.substring(7);
+        if (!jwtToken.isEmpty() && !jwtUtil.tokenIsValid(jwtToken)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String userId = jwtUtil.extractUserId(token.substring(7));
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            postService.deletePost(id);
+        }
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/posts/{id}/dislike")

@@ -37,6 +37,14 @@ export class PostService {
     );
   }
 
+  public deletePost(postId: string): Observable<void> {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.authService.getToken()}`
+    );
+    return this.http.delete<void>(`${this.baseUrl}/${postId}`, { headers });
+  }
+
   // Like a post
   likePost(postId: string): Observable<Post> {
     const headers = new HttpHeaders().set(
