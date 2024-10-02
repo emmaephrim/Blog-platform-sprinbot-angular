@@ -4,6 +4,8 @@ import { PostsComponent } from '../posts/posts.component';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../service/auth.service';
 import { FormsModule } from '@angular/forms';
+import { CategoryService } from '../../service/category.service';
+import { CategoryModel } from '../../model/category';
 
 @Component({
   selector: 'app-home',
@@ -21,11 +23,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class HomeComponent {
   searchQuery: string = '';
-  constructor(private router: Router) {
-    this.isAuthenticated = this.authService.isAuthenticated();
-    this.isAdmin = () => this.authService.isAdmin();
-  }
-  currentYear = new Date().getFullYear();
+  categories: CategoryModel[] = [];
 
   authService: AuthService = inject(AuthService);
   isBrowser = () => this.authService.isBrowser();
@@ -33,8 +31,22 @@ export class HomeComponent {
   isAdmin: () => boolean;
   logout = () => this.authService.logout();
   isAuthenticated: boolean;
-  OnInit(): void {
+
+  constructor(
+    private router: Router,
+    private categoryService: CategoryService
+  ) {
     this.isAuthenticated = this.authService.isAuthenticated();
+    this.isAdmin = () => this.authService.isAdmin();
+  }
+  currentYear = new Date().getFullYear();
+
+  ngOnInit(): void {
+    this.isAuthenticated = this.authService.isAuthenticated();
+
+    this.categoryService.getAllCategories().subscribe((data) => {
+      this.categories = data;
+    });
   }
 
   onSearch() {

@@ -133,28 +133,30 @@
           <div class="card-body">
             <div class="row">
               <div class="col-lg-6">
-                <ul class="list-unstyled mb-0">
+                <ul
+                  class="list-unstyled mb-0"
+                  *ngFor="let category of categories.slice(0, 3)"
+                >
                   <li>
-                    <a href="#">Education</a>
-                  </li>
-                  <li>
-                    <a href="#">Finance</a>
-                  </li>
-                  <li>
-                    <a href="#">Politics</a>
+                    <a
+                      [routerLink]="['/posts']"
+                      [queryParams]="{ search: category.id }"
+                      >{{ category.name }}</a
+                    >
                   </li>
                 </ul>
               </div>
               <div class="col-lg-6">
-                <ul class="list-unstyled mb-0">
+                <ul
+                  class="list-unstyled mb-0"
+                  *ngFor="let category of categories.slice(3)"
+                >
                   <li>
-                    <a href="#">Sports</a>
-                  </li>
-                  <li>
-                    <a href="#">Entertainment</a>
-                  </li>
-                  <li>
-                    <a href="#">Technology</a>
+                    <a
+                      [routerLink]="['/posts']"
+                      [queryParams]="{ search: category.id }"
+                      >{{ category.name }}</a
+                    >
                   </li>
                 </ul>
               </div>

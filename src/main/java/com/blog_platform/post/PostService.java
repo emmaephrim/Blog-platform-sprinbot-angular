@@ -1,7 +1,7 @@
 package com.blog_platform.post;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -50,7 +50,8 @@ public class PostService {
             List<Post> posts = new ArrayList<>();
             postRepository.findAll().forEach(post -> {
                 if (post.getTitle().toLowerCase().contains(search.toLowerCase())
-                        || post.getContent().toLowerCase().contains(search.toLowerCase())) {
+                        || post.getContent().toLowerCase().contains(search.toLowerCase())
+                        || post.getCategoryId().contains(search)) {
                     posts.add(post);
                 }
             });
@@ -62,6 +63,17 @@ public class PostService {
 
     public Page<Post> getAllPostPageable(Pageable pageable) {
         return postRepository.findAll(pageable);
+    }
+
+    public Page<Post> findPostsByCategory(String categoryId, Pageable pageable) {
+        List<Post> posts = new ArrayList<>();
+        postRepository.findAll().forEach(post -> {
+            if (post.getCategoryId() != null && post.getCategoryId().equals(categoryId)) {
+                posts.add(post);
+            }
+        });
+        return new PageImpl<>(posts, pageable, posts.size());
+
     }
 
     @Transactional
