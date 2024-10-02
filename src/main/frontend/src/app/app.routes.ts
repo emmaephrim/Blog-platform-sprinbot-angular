@@ -40,6 +40,7 @@ export const routes: Routes = [
         path: 'create-post',
         component: PostFormComponent,
       },
+      { path: 'edit-post/:id', component: PostFormComponent },
       { path: 'manage-posts', component: ManagePostsComponent },
     ],
   },

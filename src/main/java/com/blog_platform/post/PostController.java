@@ -73,8 +73,17 @@ public class PostController {
     }
 
     @PutMapping("/posts")
-    public ResponseEntity<Post> updatePost(@RequestBody Post post) {
-        postService.updatePost(post);
+    public ResponseEntity<Post> updatePost(@RequestBody Post post, @RequestHeader("Authorization") String token) {
+        String jwtToken = token.substring(7);
+        if (!jwtToken.isEmpty() && !jwtUtil.tokenIsValid(jwtToken)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String userId = jwtUtil.extractUserId(token.substring(7));
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            postService.updatePost(post);
+        }
         return ResponseEntity.ok(post);
     }
 

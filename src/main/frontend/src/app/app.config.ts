@@ -10,6 +10,8 @@ import {
 } from '@angular/common/http';
 // import { httpInterceptorProviders } from './auth/interceptor';
 import { AuthInterceptor } from './auth/interceptor/auth.interceptor';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,5 +20,7 @@ export const appConfig: ApplicationConfig = {
     // httpInterceptorProviders,
     provideRouter(routes),
     provideClientHydration(),
+    provideAnimations(),
+    provideToastr(),
   ],
 };

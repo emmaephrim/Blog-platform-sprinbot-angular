@@ -15,6 +15,7 @@ import {
 import { CommentModel } from '../../model/comment.model';
 import { CommentService } from '../../service/comment.service';
 import { AuthService } from '../../service/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-post-details',
@@ -47,7 +48,8 @@ export class PostDetailsComponent {
     private postService: PostService,
     private userService: UserService,
     private commentService: CommentService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -85,11 +87,11 @@ export class PostDetailsComponent {
     this.commentService.saveComment(this.commentModel).subscribe((result) => {
       if (result) {
         // console.log(result);
-        alert('Comment saved!');
+        this.toastr.success('Comment saved!');
         this.comments.push(result);
         this.commentForm.reset();
       } else {
-        alert('Error saving comment!');
+        this.toastr.error('Error saving comment!');
       }
     });
   }

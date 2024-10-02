@@ -25,14 +25,16 @@
               }
             ],
             "styles": [
-              "./node_modules/jqwidgets-ng/jqwidgets/styles/jqx.base.css",
               "src/styles.css",
+              "./node_modules/jqwidgets-ng/jqwidgets/styles/jqx.base.css",
               "./node_modules/bootstrap-icons/font/bootstrap-icons.css",
+              "node_modules/ngx-toastr/toastr.css",
               "./public/admin/css/sb-admin-2.min.css",
               "./public/admin/vendor/fontawesome-free/css/all.min.css",
               "./node_modules/datatables.net-dt/css/dataTables.dataTables.min.css",
               "node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css",
-              "node_modules/datatables.net-dt/css/dataTables.dataTables.min.css"
+              "node_modules/datatables.net-dt/css/dataTables.dataTables.min.css",
+              "node_modules/datatables.net-responsive-dt/css/responsive.dataTables.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -40,7 +42,8 @@
               "./node_modules/datatables.net-dt/js/dataTables.dataTables.min.js",
               "./public/admin/vendor/jquery-easing/jquery.easing.min.js",
               "./public/admin/js/sb-admin-2.min.js",
-              "node_modules/datatables.net-bs5/js/dataTables.bootstrap5.min.js"
+              "node_modules/datatables.net-bs5/js/dataTables.bootstrap5.min.js",
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.js"
             ],
             "server": "src/main.server.ts",
             "prerender": true,

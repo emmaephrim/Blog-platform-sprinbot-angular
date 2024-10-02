@@ -27,6 +27,14 @@ export class PostService {
     return this.http.post<Post>(this.baseUrl, post);
   }
 
+  public updatePost(post: Post): Observable<Post> {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.authService.getToken()}`
+    );
+    return this.http.put<Post>(this.baseUrl, post, { headers });
+  }
+
   public findPostsPageable(
     page: number,
     size: number,

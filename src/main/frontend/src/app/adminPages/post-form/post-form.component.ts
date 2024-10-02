@@ -20,6 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryModel } from '../../model/category';
 import { CategoryService } from '../../service/category.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-post-form',
@@ -32,6 +33,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 export class PostFormComponent {
   public Editor: any | null;
   public config: any;
+  public editPostId!: string;
 
   categories: CategoryModel[] = [];
   postForm: FormGroup;
@@ -41,6 +43,7 @@ export class PostFormComponent {
     private route: ActivatedRoute,
     private router: Router,
     private categoryService: CategoryService,
+    private toastr: ToastrService,
 
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -49,6 +52,7 @@ export class PostFormComponent {
     // });
 
     this.postForm = new FormGroup({
+      id: new FormControl(null),
       title: new FormControl(this.post.title, [Validators.required]),
       imageUrl: new FormControl(this.post.imageUrl, [
         Validators.required,
@@ -69,6 +73,14 @@ export class PostFormComponent {
   }
 
   ngOnInit() {
+    this.editPostId = this.route.snapshot.params['id'];
+    if (this.editPostId) {
+      this.postService.findPostById(this.editPostId).subscribe((post) => {
+        this.post = post;
+        this.postForm.patchValue(this.post);
+      });
+    }
+
     if (isPlatformBrowser(this.platformId)) {
       this.loadCkEditor();
     }
@@ -79,18 +91,6 @@ export class PostFormComponent {
   }
 
   async loadCkEditor() {
-    // const { Bold, Essentials, Italic, Mention, Paragraph, Undo } = await import(
-    //   'ckeditor5'
-    // );
-    // this.config = {
-    //   toolbar: ['undo', 'redo', '|', 'bold', 'italic'],
-    //   plugins: [Bold, Essentials, Italic, Mention, Paragraph, Undo],
-    // };
-    // this.Editor = (await import('ckeditor5')).ClassicEditor.create(
-    //   document.querySelector('#Editor') as any,
-    //   this.config
-    // );
-
     const {
       ClassicEditor,
       Bold,
@@ -119,10 +119,18 @@ export class PostFormComponent {
 
   public handleSubmit() {
     this.post = this.postForm.value as Post;
-    this.postService.savePost(this.post).subscribe((result) => {
-      alert('Post saved successfully');
-      this.goToDashboard();
-    });
+
+    if (this.editPostId != null) {
+      this.postService.updatePost(this.post).subscribe((result) => {
+        this.toastr.success('Post updated successfully');
+        this.router.navigate(['admin/manage-posts']);
+      });
+    } else {
+      this.postService.savePost(this.post).subscribe((result) => {
+        this.toastr.success('Post saved successfully');
+        this.postForm.reset();
+      });
+    }
   }
 
   public goToDashboard() {

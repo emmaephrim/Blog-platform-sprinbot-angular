@@ -2,7 +2,9 @@
   <div class="col">
     <div class="post-content">
       <img
-        src="{{ post.imageUrl }}"
+        src="{{
+          post.imageUrl ? post.imageUrl : 'images/blog_post_default_image.jpg'
+        }}"
         alt="post-image"
         class="img-responsive post-image"
       />
