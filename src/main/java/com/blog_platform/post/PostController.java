@@ -72,15 +72,6 @@ public class PostController {
         return ResponseEntity.ok(post);
     }
 
-    @GetMapping("/category")
-    public ResponseEntity<Page<Post>> findPostsByCategory(
-            @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size,
-            @RequestParam(name = "categoryId") String categoryId) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Post> posts = postService.findPostsByCategory(categoryId, pageable);
-        return ResponseEntity.ok(posts);
-    }
-
     @PutMapping("/posts")
     public ResponseEntity<Post> updatePost(@RequestBody Post post, @RequestHeader("Authorization") String token) {
         String jwtToken = token.substring(7);

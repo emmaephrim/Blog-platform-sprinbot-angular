@@ -10,6 +10,8 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { authGuard } from './guard/auth.guard';
 import { PostDetailsComponent } from './homePages/post-details/post-details.component';
 import { ManagePostsComponent } from './adminPages/manage-posts/manage-posts.component';
+import { ManageCategoriesComponent } from './adminPages/manage-categories/manage-categories.component';
+import { SideWidgetComponent } from './adminPages/side-widget/side-widget.component';
 
 export const routes: Routes = [
   // {
@@ -42,6 +44,8 @@ export const routes: Routes = [
       },
       { path: 'edit-post/:id', component: PostFormComponent },
       { path: 'manage-posts', component: ManagePostsComponent },
+      { path: 'manage-categories', component: ManageCategoriesComponent },
+      { path: 'side-widget', component: SideWidgetComponent },
     ],
   },
   {

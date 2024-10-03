@@ -65,17 +65,6 @@ public class PostService {
         return postRepository.findAll(pageable);
     }
 
-    public Page<Post> findPostsByCategory(String categoryId, Pageable pageable) {
-        List<Post> posts = new ArrayList<>();
-        postRepository.findAll().forEach(post -> {
-            if (post.getCategoryId() != null && post.getCategoryId().equals(categoryId)) {
-                posts.add(post);
-            }
-        });
-        return new PageImpl<>(posts, pageable, posts.size());
-
-    }
-
     @Transactional
     public Post likePost(Post post, User user) {
         if (user.getLikedPostsIdList() == null) {

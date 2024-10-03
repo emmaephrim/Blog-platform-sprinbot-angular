@@ -18,7 +18,7 @@ export class PostsComponent {
   posts: Post[] = [];
   postService: PostService = inject(PostService);
 
-  categoryId!: string;
+  isLoading: boolean = true;
 
   page: number = 0;
   size: number = 3;
@@ -43,13 +43,6 @@ export class PostsComponent {
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.categoryId = params['categoryId'];
-      if (this.categoryId) {
-        this.loadPostsByCategory();
-      }
-    });
-
     this.route.queryParams.subscribe((params) => {
       this.searchQuery = params['search'] || '';
       this.loadPosts();
@@ -65,15 +58,7 @@ export class PostsComponent {
       .findPostsPageable(this.page, this.size, this.searchQuery)
       .subscribe((data: any) => {
         this.posts = data.content;
-        this.totalPages = data.totalPages;
-      });
-  }
-
-  loadPostsByCategory() {
-    this.postService
-      .findPostsByCategoryPageable(this.page, this.size, this.categoryId)
-      .subscribe((data: any) => {
-        this.posts = data.content;
+        this.isLoading = false;
         this.totalPages = data.totalPages;
       });
   }

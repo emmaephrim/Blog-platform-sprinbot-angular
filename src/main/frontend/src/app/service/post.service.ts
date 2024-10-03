@@ -57,16 +57,6 @@ export class PostService {
     return this.http.get<Post[]>(`${this.baseUrl}/category/${categoryId}`);
   }
 
-  public findPostsByCategoryPageable(
-    page: number,
-    size: number,
-    categoryId: string
-  ): Observable<Post[]> {
-    return this.http.get<Post[]>(
-      `${this.baseUrl}/category?page=${page}&size=${size}&categoryId=${categoryId}`
-    );
-  }
-
   // Like a post
   likePost(postId: string): Observable<Post> {
     const headers = new HttpHeaders().set(
